@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desi Meals — Mess Accounting &amp; Bookkeeping</title>
+<meta name="description" content="Desi Meals native Android app preview: offline mess accounting, members, ledger, meals.">
+<style>
+:root{
+  --green:#1b6b4a; --deep:#0e3b2a; --cream:#fffbf2; --card:#ffffff;
+  --sand:#f0e6d3; --saffron:#f59e0b; --ink:#1d1b12; --muted:#6b6455;
+  --red:#ba1a1a; --radius:16px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink)}
+header.hero{background:linear-gradient(135deg,var(--deep),var(--green));color:#fff;padding:40px 20px 28px}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+.badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:6px 12px;border-radius:999px;font-size:13px;letter-spacing:.02em}
+h1{margin:14px 0 8px;font-size:clamp(30px,5vw,52px);line-height:1.05}
+.hero p.sub{margin:0;opacity:.92;font-size:clamp(15px,2.4vw,19px);max-width:640px}
+.pills{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+.pills span{background:#fff;color:var(--deep);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
+main.wrap{padding-top:22px;padding-bottom:60px}
+.offline{background:#ffe9b3;border:1px solid #e8b800;border-radius:12px;padding:10px 14px;font-size:14px;margin:16px 0}
+nav.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+nav.tabs button{border:1px solid #d8cdae;background:#fff;border-radius:999px;padding:10px 18px;font-size:15px;font-weight:700;cursor:pointer;color:var(--deep)}
+nav.tabs button[aria-selected="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid #e7dcc3;border-radius:var(--radius);padding:18px;box-shadow:0 2px 10px rgba(60,45,10,.06)}
+.card h2,.card h3{margin:0 0 6px}
+.big{font-size:32px;font-weight:800;margin:4px 0}
+.muted{color:var(--muted);font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input,select,textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid #d8cdae;font-size:15px;background:#fff;color:var(--ink)}
+button.primary{background:var(--green);color:#fff;border:0;border-radius:10px;padding:12px 18px;font-size:15px;font-weight:700;cursor:pointer}
+button.ghost{background:#fff;color:var(--deep);border:1px solid var(--green);border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid #eee3c8}
+th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.pos{color:var(--green);font-weight:700}.neg{color:var(--red);font-weight:700}
+.chip{display:inline-block;background:var(--sand);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;margin:2px 4px 2px 0;cursor:pointer;border:1px solid transparent}
+.chip.on{background:var(--green);color:#fff}
+.member{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 4px;border-bottom:1px solid #eee3c8}
+.switch{width:46px;height:26px;border-radius:999px;background:#c9c2ae;position:relative;cursor:pointer;border:0;flex:none}
+.switch.on{background:var(--green)}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .15s}
+.switch.on::after{left:23px}
+footer{padding:26px 20px 40px;color:var(--muted);font-size:13px;text-align:center}
+code{background:#efe8d2;padding:2px 6px;border-radius:6px}
+.panel{display:none}.panel.active{display:block}
+.kbd{font-size:12px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">NATIVE ANDROID • KOTLIN • JETPACK COMPOSE • ROOM • OFFLINE-FIRST</span>
+    <h1>Desi Meals</h1>
+    <p class="sub">Mess accounting &amp; bookkeeping for desi messes — members, monthly bills, payments, expenses and daily meals. This page is the web preview of the native Android app in <code>DesiMeals/</code>.</p>
+    <div class="pills"><span>Dashboard</span><span>Members</span><span>Ledger</span><span>Daily meals</span><span>100% offline</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="offline"><strong>Works offline.</strong> The Android app stores everything in Room (<code>desi_meals.db</code>). This preview below is interactive and also works without network.</div>
+
+  <nav class="tabs" role="tablist" aria-label="App preview tabs">
+    <button role="tab" aria-selected="true" data-tab="dashboard">Home</button>
+    <button role="tab" aria-selected="false" data-tab="members">Members</button>
+    <button role="tab" aria-selected="false" data-tab="ledger">Ledger</button>
+    <button role="tab" aria-selected="false" data-tab="meals">Meals</button>
+    <button role="tab" aria-selected="false" data-tab="build">Build APK</button>
+  </nav>
+
+  <section id="panel-dashboard" class="panel active">
+    <div class="grid2">
+      <div class="card"><h3>Receivable</h3><div class="big" id="stat-receivable">Rs 12,500</div><div class="muted" id="stat-members">4 active members</div></div>
+      <div class="card"><h3>This month net</h3><div class="big" id="stat-net">Rs 8,200</div><div class="muted">Received − Expenses</div></div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h2>Billed vs received</h2>
+      <div class="row" style="margin-top:10px">
+        <div style="flex:1;min-width:140px"><div class="muted">BILLED</div><div class="big" style="font-size:24px" id="stat-billed">Rs 48,000</div></div>
+        <div style="flex:1;min-width:140px"><div class="muted">PAID</div><div class="big" style="font-size:24px" id="stat-paid">Rs 35,500</div></div>
+        <div style="flex:1;min-width:140px"><div class="muted">DUE</div><div class="big neg" style="font-size:24px" id="stat-due">Rs 12,500</div></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button class="ghost" data-goto="members">Members</button>
+        <button class="ghost" data-goto="meals">Meals</button>
+        <button class="primary" data-goto="ledger">Open ledger</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h2>Recent activity</h2>
+      <table aria-label="Recent activity"><thead><tr><th>Description</th><th>Type</th><th style="text-align:right">Amount</th></tr></thead>
+      <tbody id="recent-body"></tbody></table>
+    </div>
+  </section>
+
+  <section id="panel-members" class="panel">
+    <div class="card">
+      <h2>Mess members</h2>
+      <p class="muted">Search, add, activate/deactivate. Long-press delete exists in the Android app.</p>
+      <div class="row"><div style="flex:1;min-width:200px"><input id="q" type="search" placeholder="Search members — try 'Ahmed'" aria-label="Search members"></div></div>
+      <div id="member-list" style="margin-top:8px"></div>
+      <h3 style="margin-top:16px">Add member</h3>
+      <div class="grid2">
+        <input id="m-name" placeholder="Name * (e.g. Ahmed Khan)">
+        <input id="m-phone" placeholder="Phone (e.g. 0300-1234567)">
+        <input id="m-addr" placeholder="Address">
+        <input id="m-rate" type="number" min="0" placeholder="Monthly rate (Rs)">
+      </div>
+      <div class="row" style="margin-top:10px"><button class="primary" id="m-add">Save member (offline)</button><span class="muted kbd" id="m-msg"></span></div>
+    </div>
+  </section>
+
+  <section id="panel-ledger" class="panel">
+    <div class="card">
+      <h2>Ledger — unified bookkeeping</h2>
+      <p class="muted">CHARGE / PAYMENT / EXPENSE / INCOME. Bills increase due, payments reduce it.</p>
+      <div class="row" id="ledger-filters">
+        <span class="chip on" data-f="">All</span><span class="chip" data-f="CHARGE">Bills</span><span class="chip" data-f="PAYMENT">Payments</span><span class="chip" data-f="EXPENSE">Expenses</span>
+      </div>
+      <table style="margin-top:8px"><thead><tr><th>Description</th><th>Type</th><th>Date</th><th style="text-align:right">Amount</th></tr></thead><tbody id="ledger-body"></tbody></table>
+      <h3 style="margin-top:16px">Add entry</h3>
+      <div class="grid2">
+        <select id="t-type"><option value="CHARGE">Bill (CHARGE)</option><option value="PAYMENT">Payment received</option><option value="EXPENSE">Mess expense</option><option value="INCOME">Other income</option></select>
+        <input id="t-amt" type="number" min="1" placeholder="Amount (Rs) *">
+      </div>
+      <div style="margin-top:8px"><input id="t-desc" placeholder="Description (e.g. October mess bill — Ahmed)"></div>
+      <div class="row" style="margin-top:10px"><button class="primary" id="t-add">Save entry (offline)</button><span class="muted kbd" id="t-msg"></span></div>
+    </div>
+  </section>
+
+  <section id="panel-meals" class="panel">
+    <div class="card">
+      <h2>Daily meals</h2>
+      <div class="row"><button class="ghost" id="day-prev">← Prev day</button><strong id="day-label">Today</strong><button class="ghost" id="day-next">Next day →</button></div>
+      <div id="meal-list" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <section id="panel-build" class="panel">
+    <div class="card">
+      <h2>Build &amp; install the APK</h2>
+      <p>Full native source lives in <code>DesiMeals/</code> (Kotlin + Compose + Room). It compiled with <code>gradle assembleDebug</code>.</p>
+      <table><tbody>
+        <tr><td><code>cd DesiMeals &amp;&amp; gradle assembleDebug</code></td><td class="muted">debug APK</td></tr>
+        <tr><td><code>app/build/outputs/apk/debug/app-debug.apk</code></td><td class="muted">17 MB, installs via adb</td></tr>
+        <tr><td><code>adb install -r app/build/outputs/apk/debug/app-debug.apk</code></td><td class="muted">install on device</td></tr>
+      </tbody></table>
+      <p class="muted">Android Studio: open <code>DesiMeals/</code> → let Gradle sync (AGP 8.5.2, Kotlin 2.0.20, compileSdk 34) → Build → Build APK(s).</p>
+    </div>
+  </section>
+</main>
+<footer>Desi Meals web preview • static build in <code>dist/</code> • native app source in <code>DesiMeals/</code></footer>
+<script>
+(function(){
+  var members=[
+    {id:1,name:"Ahmed Khan",phone:"0300-1111111",rate:6500,active:true},
+    {id:2,name:"Bilal Hussain",phone:"0301-2222222",rate:6500,active:true},
+    {id:3,name:"Usman Tariq",phone:"0321-3333333",rate:7000,active:true},
+    {id:4,name:"Fatima Noor",phone:"0333-4444444",rate:6000,active:false}
+  ];
+  var txs=[
+    {d:"October mess bill — Ahmed",t:"CHARGE",amt:6500,date:"02 Oct"},
+    {d:"Payment received — Bilal (UPI)",t:"PAYMENT",amt:6500,date:"03 Oct"},
+    {d:"Groceries — monthly ration",t:"EXPENSE",amt:18500,date:"04 Oct"},
+    {d:"Gas refill",t:"EXPENSE",amt:3200,date:"05 Oct"},
+    {d:"October mess bill — Usman",t:"CHARGE",amt:7000,date:"01 Oct"},
+    {d:"Payment received — Ahmed (cash)",t:"CHARGE".length?"PAYMENT":"PAYMENT",amt:4000,date:"06 Oct"}
+  ];
+  var filter="";
+  function rs(n){return "Rs "+Number(n).toLocaleString("en-US")}
+  function renderRecent(){
+    var tb=document.getElementById("recent-body");tb.innerHTML="";
+    txs.slice(0,5).forEach(function(x){
+      var credit=(x.t==="PAYMENT");
+      var tr=document.createElement("tr");
+      tr.innerHTML="<td>"+x.d+"</td><td>"+x.t+"</td><td style='text-align:right' class='"+(credit?"pos":"neg")+"'>"+(credit?"+":"-")+rs(x.amt)+"</td>";
+      tb.appendChild(tr);
+    });
+  }
+  function renderMembers(){
+    var q=(document.getElementById("q").value||"").toLowerCase();
+    var box=document.getElementById("member-list");box.innerHTML="";
+    members.filter(function(m){return !q||m.name.toLowerCase().indexOf(q)>-1||m.phone.indexOf(q)>-1}).forEach(function(m){
+      var div=document.createElement("div");div.className="member";
+      div.innerHTML="<div><strong>"+m.name+"</strong><div class='muted'>"+m.phone+" • "+rs(m.rate)+"/mo • "+(m.active?"Active":"Inactive")+"</div></div>";
+      var b=document.createElement("button");b.className="switch"+(m.active?" on":"");b.setAttribute("aria-label","Toggle "+m.name);
+      b.onclick=function(){m.active=!m.active;b.classList.toggle("on",m.active);updateStats()};
+      div.appendChild(b);box.appendChild(div);
+    });
+    if(!box.children.length){box.innerHTML="<p class='muted'>No matches. Try a different search.</p>"}
+  }
+  function renderLedger(){
+    var tb=document.getElementById("ledger-body");tb.innerHTML="";
+    txs.filter(function(x){return !filter||x.t===filter}).forEach(function(x){
+      var credit=(x.t==="PAYMENT");
+      var tr=document.createElement("tr");
+      tr.innerHTML="<td>"+x.d+"</td><td>"+x.t+"</td><td>"+x.date+"</td><td style='text-align:right' class='"+(credit?"pos":"neg")+"'>"+(credit?"+":"-")+rs(x.amt)+"</td>";
+      tb.appendChild(tr);
+    });
+    if(!tb.children.length){tb.innerHTML="<tr><td colspan='4' class='muted'>Ledger is empty for this filter.</td></tr>"}
+  }
+  var dayOffset=0, meals={};
+  function dayLabel(){if(dayOffset===0)return "Today";if(dayOffset===1)return "Tomorrow";if(dayOffset===-1)return "Yesterday";return (dayOffset>0?"+":"")+dayOffset+" days"}
+  function renderMeals(){
+    document.getElementById("day-label").textContent=dayLabel();
+    var box=document.getElementById("meal-list");box.innerHTML="";
+    members.filter(function(m){return m.active}).forEach(function(m){
+      var key=m.id+":"+dayOffset;var e=meals[key]||{};
+      var div=document.createElement("div");div.className="member";
+      var left=document.createElement("div");left.innerHTML="<strong>"+m.name+"</strong><div class='muted'>"+((e.b?1:0)+(e.l?1:0)+(e.d?1:0))+" meal(s) marked</div>";
+      var chips=document.createElement("div");
+      [["b","Breakfast"],["l","Lunch"],["d","Dinner"]].forEach(function(k){
+        var s=document.createElement("span");s.className="chip"+(e[k[0]]?" on":"");s.textContent=k[1];
+        s.onclick=function(){e=e||{};e[k[0]]=!e[k[0]];meals[key]=e;renderMeals()};
+        chips.appendChild(s);
+      });
+      div.appendChild(left);div.appendChild(chips);box.appendChild(div);
+    });
+    if(!box.children.length)box.innerHTML="<p class='muted'>No active members. Activate one in Members.</p>";
+  }
+  function updateStats(){
+    var active=members.filter(function(m){return m.active}).length;
+    document.getElementById("stat-members").textContent=active+" active members";
+  }
+  document.querySelectorAll("nav.tabs button").forEach(function(btn){
+    btn.onclick=function(){
+      document.querySelectorAll("nav.tabs button").forEach(function(b){b.setAttribute("aria-selected","false")});
+      btn.setAttribute("aria-selected","true");
+      document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("active")});
+      document.getElementById("panel-"+btn.getAttribute("data-tab")).classList.add("active");
+    };
+  });
+  document.querySelectorAll("[data-goto]").forEach(function(b){
+    b.onclick=function(){document.querySelector('nav.tabs button[data-tab="'+b.getAttribute("data-goto")+'"]').click()};
+  });
+  document.getElementById("q").oninput=renderMembers;
+  document.getElementById("m-add").onclick=function(){
+    var n=document.getElementById("m-name").value.trim();
+    var r=parseFloat(document.getElementById("m-rate").value||"0");
+    var msg=document.getElementById("m-msg");
+    if(!n){msg.textContent="Name is required.";return}
+    if(!(r>=0)){msg.textContent="Rate must be >= 0.";return}
+    members.push({id:Date.now(),name:n,phone:document.getElementById("m-phone").value.trim(),rate:r||0,active:true});
+    document.getElementById("m-name").value="";document.getElementById("m-rate").value="";
+    msg.textContent="Saved.";renderMembers();updateStats();renderMeals();
+  };
+  document.querySelectorAll("#ledger-filters .chip").forEach(function(c){
+    c.onclick=function(){
+      document.querySelectorAll("#ledger-filters .chip").forEach(function(x){x.classList.remove("on")});
+      c.classList.add("on");filter=c.getAttribute("data-f");renderLedger();
+    };
+  });
+  document.getElementById("t-add").onclick=function(){
+    var amt=parseFloat(document.getElementById("t-amt").value);
+    var msg=document.getElementById("t-msg");
+    if(!(amt>0)){msg.textContent="Enter an amount greater than zero.";return}
+    var type=document.getElementById("t-type").value;
+    var desc=document.getElementById("t-desc").value.trim()||type;
+    txs.unshift({d:desc,t:type,amt:amt,date:"Today"});
+    document.getElementById("t-amt").value="";document.getElementById("t-desc").value="";
+    msg.textContent="Saved.";renderLedger();renderRecent();
+  };
+  document.getElementById("day-prev").onclick=function(){dayOffset--;renderMeals()};
+  document.getElementById("day-next").onclick=function(){dayOffset++;renderMeals()};
+  renderRecent();renderMembers();renderLedger();renderMeals();updateStats();
+})();
+</script>
+</body>
+</html>
