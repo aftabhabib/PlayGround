@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Desi Meals — Mess Management &amp; Accounting</title>
+<meta name="description" content="Desi Meals is a mess management and accounting app for food businesses: customers, meal charges, payments, expenses, and financial reports." />
+<style>
+  :root { --green:#1B8C4B; --green-dark:#0E5A30; --green-light:#DFF2E5; --ink:#14201a; --muted:#5b6b60; --card:#ffffff; --bg:#f4f7f4; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--green); color:#fff; padding:28px 20px; }
+  header .wrap, main .wrap, footer .wrap { max-width:1024px; margin:0 auto; }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .logo { width:52px; height:52px; border-radius:14px; background:#fff; color:var(--green); display:flex; align-items:center; justify-content:center; font-size:30px; font-weight:800; }
+  h1 { margin:0; font-size:32px; }
+  .sub { opacity:.92; margin:6px 0 0; }
+  .badges { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+  .badge { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35); padding:6px 12px; border-radius:999px; font-size:13px; }
+  .dl { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .btn { display:inline-block; background:#fff; color:var(--green-dark); font-weight:800; padding:12px 20px; border-radius:12px; text-decoration:none; font-size:15px; }
+  .btn.ghost { background:transparent; color:#fff; border:2px solid #fff; }
+  main { padding:24px 20px 40px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:18px 0; }
+  .card { background:var(--card); border-radius:16px; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,.08); border-top:4px solid var(--green); }
+  .card h3 { margin:0 0 8px; font-size:17px; }
+  .card p { margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+  .hero { background:var(--card); border-radius:16px; padding:22px; box-shadow:0 1px 4px rgba(0,0,0,.08); }
+  .hero h2 { margin:0 0 10px; color:var(--green-dark); }
+  .hero p { line-height:1.6; color:var(--ink); }
+  .stat { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .pill { background:var(--green-light); color:var(--green-dark); border-radius:12px; padding:10px 14px; font-weight:700; font-size:14px; }
+  h2.section { margin:30px 0 6px; color:var(--green-dark); }
+  ul.two { columns:2; column-gap:28px; margin:10px 0; padding-left:20px; line-height:1.7; }
+  code, .mono { font-family:ui-monospace,Menlo,Consolas,monospace; }
+  .apk { background:#101413; color:#d7ffe4; border-radius:12px; padding:16px; font-size:14px; line-height:1.7; overflow-x:auto; }
+  footer { padding:20px; color:var(--muted); font-size:13px; text-align:center; }
+  a { color:var(--green-dark); }
+  @media (max-width:600px){ ul.two{columns:1;} h1{font-size:26px;} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">🍛</div>
+      <div>
+        <h1>Desi Meals</h1>
+        <p class="sub">Mess Management, Accounting &amp; Expense Tracking — native Android app</p>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="badge">Kotlin + Jetpack Compose</span>
+      <span class="badge">Material 3</span>
+      <span class="badge">Room + SQLite</span>
+      <span class="badge">Offline-first</span>
+      <span class="badge">PDF / Excel / CSV</span>
+    </div>
+    <div class="dl">
+      <a class="btn" href="desi-meals-debug.apk" download>⬇ Download APK (19 MB)</a>
+      <a class="btn ghost" href="desi-meals-project.zip" download>⬇ Download project source (.zip)</a>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="hero">
+      <h2>Simple, reliable bookkeeping for mess businesses</h2>
+      <p>Desi Meals is a simple and reliable mess management and accounting application designed to help food
+      businesses manage customers, meal charges, payments, expenses, and financial reports in one convenient place.
+      Built for mess services, hostels, tiffin providers, and monthly meal businesses — usable with basic smartphone knowledge.</p>
+      <div class="stat">
+        <span class="pill">19 MB debug APK ✓ builds</span>
+        <span class="pill">9/9 unit tests pass</span>
+        <span class="pill">32 screens implemented</span>
+      </div>
+    </div>
+
+    <h2 class="section">Modules</h2>
+    <div class="grid">
+      <div class="card"><h3>📊 Dashboard</h3><p>Received, paid-out, outstanding, expenses, advance, today/month figures, pending dues, quick actions, Today/Week/Month/Year filter.</p></div>
+      <div class="card"><h3>👥 Customers</h3><p>Profiles, meal plans, status, search by name/ID/mobile, monthly billing, PDF statements, overdue reminders.</p></div>
+      <div class="card"><h3>🧾 Debit / Credit ledger</h3><p>Per-customer running balance. Debit increases due, credit reduces it. Advance = negative. Duplicate-payment guard.</p></div>
+      <div class="card"><h3>🍽️ Meals &amp; invoices</h3><p>Daily present/absent, extra meals, monthly bill generation with duplicate-period protection.</p></div>
+      <div class="card"><h3>🛒 Expenses</h3><p>16 categories + custom, paid/unpaid tracking, vendor search, top-category insights.</p></div>
+      <div class="card"><h3>💰 Cashbook &amp; bank</h3><p>Cash/bank accounts, IN/OUT entries, transfers excluded from income/expense, daily closing.</p></div>
+      <div class="card"><h3>🏭 Suppliers</h3><p>Bills vs. payments tracked separately. Outstanding = opening + billed − paid. No double-counting.</p></div>
+      <div class="card"><h3>📈 Reports</h3><p>P&amp;L, income, expenses, receivables, payables, cash flow, meals, overdue — date-filtered with PDF/Excel/CSV export.</p></div>
+    </div>
+
+    <h2 class="section">Accounting accuracy</h2>
+    <div class="hero">
+      <p class="mono">customer balance = opening + debits − credits &nbsp;•&nbsp; profit = recognized income − expenses</p>
+      <p>Meal charges are recognized income; customer payments reduce receivables and never create duplicate income.
+      Transfers, owner capital, and withdrawals are classified separately. Supplier bills are liabilities until paid.</p>
+    </div>
+
+    <h2 class="section">Build the Android app</h2>
+    <div class="apk">./gradlew :app:assembleDebug &nbsp;&nbsp;# → app/build/outputs/apk/debug/app-debug.apk<br />./gradlew :app:testDebugUnitTest &nbsp;# → 9 tests pass (AccountingTest)</div>
+
+    <h2 class="section">All 32 screens ship in the APK</h2>
+    <ul class="two">
+      <li>Splash + dashboard</li>
+      <li>Customer list / add / edit / profile / ledger</li>
+      <li>Charge (debit) / payment (credit) / receipt</li>
+      <li>Meal management / invoices / invoice details</li>
+      <li>Expense list / add / details</li>
+      <li>Supplier list / supplier ledger</li>
+      <li>Cashbook / bank accounts / transaction history</li>
+      <li>Reports dashboard + report views + search</li>
+      <li>Backup &amp; restore / settings / currency / theme</li>
+      <li>About / privacy / dialogs</li>
+    </ul>
+    <p>Full source, Room schema (14 tables), and test evidence are in the repository. This page is the static web
+    preview; the installable product is the Android APK built from <code>app/</code>.</p>
+  </div>
+</main>
+<footer><div class="wrap">© 2026 Desi Meals • Web preview of the native Android app • Green = food, growth, financial success</div></footer>
+</body>
+</html>
